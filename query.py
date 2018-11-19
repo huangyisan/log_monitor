@@ -4,6 +4,9 @@ import queue
 from addict import Dict
 import auth_config
 import machine
+import time
+
+
 
 class FuncQuery(object):
     def __init__(self, label):
@@ -27,33 +30,8 @@ class FuncQuery(object):
         count = mapping.total_results
         return count
 
-
-
-class FuncQueue(FuncQuery):
-    def __init__(self, flag, q):
-        '''
-
-        :param flag: 0 --> port open; 1 --> port block
-        :param q: queue.Queue()
-        '''
-        super(FuncQueue, self).__init__(flag)
-        self.q = q
-        self.flag = flag
-
-    def listqueue(self, line):
-        '''
-
-        :param line: ip port
-        :return:
-        '''
-        if self.test_stat(line):
-            self.q.put(self.test_stat(line))
-
-    def sizequeue(self):
-        return self.q.qsize()
 zero_list = []
 def t(m):
-
     a = FuncQuery(label=m)
     count = a.get_count()
     if count == 0:
@@ -61,6 +39,17 @@ def t(m):
 
 t_list = []
 
+def timer(func):
+    def warrp():
+        start_time = time.time()
+        func()
+        end_time = time.time()
+        cost_time = end_time - start_time
+        print(cost_time)
+    return warrp
+
+# @timer
+# def exec():
 for m in machine.machines:
     c = threading.Thread(target=t, args=(m,))
 
@@ -69,5 +58,5 @@ for m in machine.machines:
 
 for j in t_list:
     j.join()
-
+# exec()
 print(zero_list)
