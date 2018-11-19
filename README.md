@@ -17,7 +17,7 @@ args --> label:${label} -->hostname   range:${range} --> timerange
 query=label:${label}| stats count(status)&range=${range}&limit=10
 
 http_header:
-Authorization:xxxxx
+Authorization:xxxxx(需要认证)
 
 
 ## OUTPUT ##
