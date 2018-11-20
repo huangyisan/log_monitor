@@ -38,7 +38,7 @@ class FuncQuery(object):
         }
         self.payloads = {
             'query': 'label:{0} | stats count(status)'.format(label),
-            'range': 90,
+            'range': 300,
             'limit': 1
         }
 
@@ -79,5 +79,7 @@ def exec():
 
     for j in t_list:
         j.join()
-exec()
-print(zero_list)
+
+if __name__ == '__main__':
+    exec()
+    print(zero_list)
